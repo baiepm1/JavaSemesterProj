@@ -23,14 +23,22 @@ public class cardPicker extends Application{
 	private ImageView pic3;
 	private ImageView pic4;
 	
+	int card1;
+	int card2;
+	int card3;
+	int card4;
+	
 	Button go;
 	Button calc;
+	Button solution;
 	HBox hb = new HBox(20);
 	HBox hb2 = new HBox(20);
+	HBox hb3 = new HBox(20);
 	VBox vb=new VBox(20);
 	Label lbl=new Label("Enter an Expression:");
 	TextField txt1=new TextField("1*2*3*4");
 	Text txt2=new Text("");
+	Text txt3=new Text("");
 	Scene sn;
 	
 	cardClass[] cardArray = new cardClass[52];	//0-51 = 52cards
@@ -109,16 +117,16 @@ public class cardPicker extends Application{
 //----------------------making 4 random numbers--------------------//
 		Random rand = new Random();
 
-		int card1 = rand.nextInt(51);
-		int card2 = rand.nextInt(51);
+		card1 = rand.nextInt(51);
+		card2 = rand.nextInt(51);
 		while(card2 == card1) {		//exclude repeat cards
 			card2 = rand.nextInt(51);
 		}
-		int card3 = rand.nextInt(51);
+		card3 = rand.nextInt(51);
 		while(card3 == card1 || card3 == card2) {	//exclude repeat cards
 			card3 = rand.nextInt(51);
 		}
-		int card4 = rand.nextInt(51);
+		card4 = rand.nextInt(51);
 		while(card4 == card1 || card4 == card2 || card4 == card3) {		//exclude repeat cards
 			card4 = rand.nextInt(51);
 		}
@@ -145,13 +153,21 @@ public class cardPicker extends Application{
         calc = new Button("Calc");
         calc.setOnAction(calculate);
         
+        solution = new Button("Solution");
+        solution.setOnAction(solve);
+        
         hb2.getChildren().add(lbl);
         hb2.getChildren().add(txt1);
         hb2.getChildren().add(calc);
         hb2.getChildren().add(txt2);
         
+        hb3.getChildren().add(solution);
+        hb3.getChildren().add(txt3);
+        
+        
         vb.getChildren().add(hb);
         vb.getChildren().add(hb2);
+        vb.getChildren().add(hb3);
         
         
         sn = new Scene(vb, 1100, 500, Color.RED);		//**** for some reason i cant change the color idk
@@ -159,6 +175,17 @@ public class cardPicker extends Application{
         arg0.setScene(sn);
         arg0.show();
 	}
+	//---------------------------Solution button doing stuff--------------------------//
+		EventHandler<ActionEvent> solve
+	    = (ActionEvent event) -> {
+	    	
+	    	System.out.println(cardArray[card1].getValue() + " " + cardArray[card2].getValue() + " " + 
+	    			cardArray[card3].getValue() + " " + cardArray[card4].getValue());
+	    	
+	    };
+	
+	
+	
 //---------------------------calc button doing stuff--------------------------//
 	EventHandler<ActionEvent> calculate
     = (ActionEvent event) -> {
@@ -166,7 +193,7 @@ public class cardPicker extends Application{
     	String op1 = null;  	
     	
     	Scanner scan = new Scanner(txt1.getText());	//reads the textfield
-    	scan.useDelimiter("[^0-9]+");		//splits up the string when it reads any non-num
+    	scan.useDelimiter("[-+*/]+");		//splits up the string when it reads any non-num
     	Scanner scan2 = new Scanner(txt1.getText());	//reads the textfield
     	scan2.useDelimiter("[0-9]+");		//splits up the string when it reads any num
     
@@ -201,7 +228,7 @@ public class cardPicker extends Application{
     	char ne;
     	char[] par = new char[20];
     	Scanner scan3 = new Scanner(txt1.getText());	//reads the textfield
-    	scan3.useDelimiter("[^abc]+");		//splits up the string when it reads any num
+    	scan3.useDelimiter("[(]");		//splits up the string when it reads any num
         
     	while(scan3.hasNext()) {
     		ne = scan3.next().charAt(0);
@@ -211,7 +238,7 @@ public class cardPicker extends Application{
     	scan3.close();
     	
     	for(int i = 0; i < count3; i++) {
-    		System.out.println(par[i]);
+    		System.out.println("par" + i + ": " + par[i]);
     	}
     	
     	
@@ -366,16 +393,16 @@ public class cardPicker extends Application{
 	    = (ActionEvent event) -> {
 //------------------------re-make 4 random nums-------------------------//
 	    	Random rand = new Random();
-			int card1 = rand.nextInt(51);
-			int card2 = rand.nextInt(51);
+			card1 = rand.nextInt(51);
+			card2 = rand.nextInt(51);
 			while(card2 == card1) {		//exclude repeat cards
 				card2 = rand.nextInt(51);
 			}
-			int card3 = rand.nextInt(51);
+			card3 = rand.nextInt(51);
 			while(card3 == card1 || card3 == card2) {	//exclude repeat cards
 				card3 = rand.nextInt(51);
 			}
-			int card4 = rand.nextInt(51);
+			card4 = rand.nextInt(51);
 			while(card4 == card1 || card4 == card2 || card4 == card3) {		//exclude repeat cards
 				card4 = rand.nextInt(51);
 			}
@@ -398,6 +425,7 @@ public class cardPicker extends Application{
 	        
 	        txt1.clear();
 	        txt2.setText("");
+	        txt3.setText("");
 	        
 	        
 	    };
