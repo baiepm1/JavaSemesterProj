@@ -30,7 +30,7 @@ public class cardPicker extends Application{
 	
 	Button go;
 	Button calc;
-	Button solution;
+	Button solutionbtn;
 	HBox hb = new HBox(20);
 	HBox hb2 = new HBox(20);
 	HBox hb3 = new HBox(20);
@@ -153,15 +153,15 @@ public class cardPicker extends Application{
         calc = new Button("Calc");
         calc.setOnAction(calculate);
         
-        solution = new Button("Solution");
-        solution.setOnAction(solve);
+        solutionbtn = new Button("Solution");
+        solutionbtn.setOnAction(solve);
         
         hb2.getChildren().add(lbl);
         hb2.getChildren().add(txt1);
         hb2.getChildren().add(calc);
         hb2.getChildren().add(txt2);
         
-        hb3.getChildren().add(solution);
+        hb3.getChildren().add(solutionbtn);
         hb3.getChildren().add(txt3);
         
         
@@ -179,9 +179,12 @@ public class cardPicker extends Application{
 		EventHandler<ActionEvent> solve
 	    = (ActionEvent event) -> {
 	    	
-	    	System.out.println(cardArray[card1].getValue() + " " + cardArray[card2].getValue() + " " + 
-	    			cardArray[card3].getValue() + " " + cardArray[card4].getValue());
+	    	//pass all 4 cards and txt3
+	    	//solution solve = new solution(cardArray[card1].getValue(), cardArray[card2].getValue(), 
+	    		//cardArray[card3].getValue(), cardArray[card4].getValue(), txt3);
 	    	
+	    	solution solve=new solution(1,1,1,8,txt3);	//testing with this until switch is full
+	    	solve.getSolution();	//output solution to txt3
 	    };
 	
 	
