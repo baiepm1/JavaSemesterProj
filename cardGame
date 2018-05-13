@@ -38,7 +38,8 @@ public class cardPicker extends Application{
 	Label lbl=new Label("Enter an Expression:");
 	TextField txt1=new TextField("1*2*3*4");
 	Text txt2=new Text("");
-	Text txt3=new Text("");
+	Text txt3=new Text("1 = ace\n2-10 = 2-10\n11 = Jack\n12 = Queen\n13 = King");
+	Text txt4=new Text("Dont use spaces or '( )'");
 	Scene sn;
 	
 	cardClass[] cardArray = new cardClass[52];	//0-51 = 52cards
@@ -135,8 +136,7 @@ public class cardPicker extends Application{
 		pic1 = new ImageView(cardArray[card1].getPic());
 		pic2 = new ImageView(cardArray[card2].getPic());
 		pic3 = new ImageView(cardArray[card3].getPic());
-		pic4 = new ImageView(cardArray[card4].getPic());
-        
+		pic4 = new ImageView(cardArray[card4].getPic());     
 		
 		go = new Button("GO!");				//making button
 		go.setOnAction(goEventListener);	//making button do stuff
@@ -153,42 +153,28 @@ public class cardPicker extends Application{
         calc = new Button("Calc");
         calc.setOnAction(calculate);
         
-        solutionbtn = new Button("Solution");
-        solutionbtn.setOnAction(solve);
+      //  solutionbtn = new Button("Solution");
+      //  solutionbtn.setOnAction(solve);
         
         hb2.getChildren().add(lbl);
         hb2.getChildren().add(txt1);
         hb2.getChildren().add(calc);
         hb2.getChildren().add(txt2);
         
-        hb3.getChildren().add(solutionbtn);
+       // hb3.getChildren().add(solutionbtn);
         hb3.getChildren().add(txt3);
-        
+        hb3.getChildren().add(txt4);   
         
         vb.getChildren().add(hb);
         vb.getChildren().add(hb2);
         vb.getChildren().add(hb3);
-        
         
         sn = new Scene(vb, 1100, 500, Color.RED);		//**** for some reason i cant change the color idk
         arg0.setTitle("Card Game!");
         arg0.setScene(sn);
         arg0.show();
 	}
-	//---------------------------Solution button doing stuff--------------------------//
-		EventHandler<ActionEvent> solve
-	    = (ActionEvent event) -> {
-	    	
-	    	//pass all 4 cards and txt3
-	    	//solution solve = new solution(cardArray[card1].getValue(), cardArray[card2].getValue(), 
-	    		//cardArray[card3].getValue(), cardArray[card4].getValue(), txt3);
-	    	
-	    	solution solve=new solution(1,1,1,8,txt3);	//testing with this until switch is full
-	    	solve.getSolution();	//output solution to txt3
-	    };
-	
-	
-	
+
 //---------------------------calc button doing stuff--------------------------//
 	EventHandler<ActionEvent> calculate
     = (ActionEvent event) -> {
@@ -225,26 +211,6 @@ public class cardPicker extends Application{
         	}
     	scan2.close();
     	
-    	
-//still working on adding parenthesis 5/11/18
-    	int count3=0;
-    	char ne;
-    	char[] par = new char[20];
-    	Scanner scan3 = new Scanner(txt1.getText());	//reads the textfield
-    	scan3.useDelimiter("[(]");		//splits up the string when it reads any num
-        
-    	while(scan3.hasNext()) {
-    		ne = scan3.next().charAt(0);
-        	par[count3]=ne;
-        	count3++;
-        	}
-    	scan3.close();
-    	
-    	for(int i = 0; i < count3; i++) {
-    		System.out.println("par" + i + ": " + par[i]);
-    	}
-    	
-    	
 //------------------------goes through the array and tries to find math symbols---------------------//
         int finalsize = count;
     	int total = 0;
@@ -275,7 +241,6 @@ public class cardPicker extends Application{
     		}
     	}
     	
-    	System.out.println("math1: " + math1 + " math2: " + math2 + " math3: " + math3 );
 //-----------------------handles the first equation to be solved-----------
     	if(math1>math2) {		//ex: 1+2*3+4 == 1(m2)2(m1)3(m3)4 or 1+2+3*4 == 1(m2)2(m3)3(m1)4
     		if(math1>math3) {		//ex: 1+2+3*4 == 1(m2)2(m3)3(m1)4
@@ -329,9 +294,7 @@ public class cardPicker extends Application{
 				list[math1+1] = Integer.toString(sum);
 			}
     	}
-    	System.out.println("math1 answer: " + sum);
 
-    	
     	if(math2>math3) {		//ex: 1+2*3*4 == 1(m3)2(m1)3(m2)4	or	1*2+3*4 == 1(m1)2(m3)3(m2)4
 			if(list[math2].charAt(0) == '*') {
 				sum = Integer.parseInt(list[math2-1]) * Integer.parseInt(list[math2+1]);
@@ -366,7 +329,6 @@ public class cardPicker extends Application{
 				list[math3-1] = Integer.toString(sum);
 			}
     	}
-    	
 
     	System.out.println("math2 answer: " + sum);
     	
@@ -380,16 +342,13 @@ public class cardPicker extends Application{
 		}
 		else if(list[math3].charAt(0) == '-') {
 			sum = Integer.parseInt(list[math3-1]) - Integer.parseInt(list[math3+1]);
-		}
-    	   	
+		}	
     	total=sum;
     	
     	if(total == 24)
         txt2.setText(Integer.toString(total) + "! Good Job!");
     	else
     		txt2.setText(Integer.toString(total) + ": doesn't equal 24 :( try again");
-    		
-    	
     };
 //-------------------------------------------------Go button doing stuff----------------------------//
 	 EventHandler<ActionEvent> goEventListener
@@ -415,9 +374,6 @@ public class cardPicker extends Application{
 			pic3 = new ImageView(cardArray[card3].getPic());
 			pic4 = new ImageView(cardArray[card4].getPic());
 			
-			System.out.println(cardArray[card1].getValue() + " " + cardArray[card2].getValue() + " " + 
-			cardArray[card3].getValue() + " " + cardArray[card4].getValue());
-			
 //----------------clear hbox then refill it----------------------------//
 			hb.getChildren().clear();
 	        hb.getChildren().add(go);
@@ -428,9 +384,6 @@ public class cardPicker extends Application{
 	        
 	        txt1.clear();
 	        txt2.setText("");
-	        txt3.setText("");
-	        
-	        
 	    };
 
 	 public static void main(String[] arg0)
