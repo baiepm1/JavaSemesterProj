@@ -329,8 +329,6 @@ public class cardPicker extends Application{
 				list[math3-1] = Integer.toString(sum);
 			}
     	}
-
-    	System.out.println("math2 answer: " + sum);
     	
     	if(list[math3].charAt(0) == '*') {	//position of m3 doesnt matter, just calc the left and right numbers
 			sum = Integer.parseInt(list[math3-1]) * Integer.parseInt(list[math3+1]);
