@@ -1,0 +1,410 @@
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class cardGame extends Application{
+	
+	//***Card image size is 225 x 325 ******
+	
+	private ImageView pic1;
+	private ImageView pic2;
+	private ImageView pic3;
+	private ImageView pic4;
+	
+	int card1;
+	int card2;
+	int card3;
+	int card4;
+	
+	Button go;
+	Button calc;
+	Button solutionbtn;
+	HBox hb = new HBox(20);
+	HBox hb2 = new HBox(20);
+	HBox hb3 = new HBox(20);
+	HBox hb4 = new HBox(20);
+	VBox vb=new VBox(20);
+	Label lbl=new Label("Enter an Expression:");
+	TextField txt1=new TextField("1*2*3*4");
+	Text txt2=new Text("");
+	Text txt3=new Text("1 = ace\n2-10 = 2-10\n11 = Jack\n12 = Queen\n13 = King");
+	Text txt4=new Text("Dont use spaces or '( )'");
+	Text txtEx = new Text("");
+	Scene sn;
+	
+	cardClass[] cardArray = new cardClass[52];	//0-51 = 52cards
+	
+	@Override
+	public void start(Stage arg0) throws FileNotFoundException {
+        
+//----------------manually filling array with card value and image------------//
+		
+		//cardClass(value, image);
+		try {
+		cardArray[0] = new cardClass(2, "2_of_clubs.png");
+		cardArray[1] = new cardClass(2, "2_of_diamonds.png");
+		cardArray[2] = new cardClass(2, "2_of_hearts.png");
+		cardArray[3] = new cardClass(2, "2_of_spades.png");
+		
+		cardArray[4] = new cardClass(3, "3_of_clubs.png");
+		cardArray[5] = new cardClass(3, "3_of_diamonds.png");
+		cardArray[6] = new cardClass(3, "3_of_hearts.png");
+		cardArray[7] = new cardClass(3, "3_of_spades.png");
+
+		cardArray[8] = new cardClass(4, "4_of_clubs.png");
+		cardArray[9] = new cardClass(4, "4_of_diamonds.png");
+		cardArray[10] = new cardClass(4, "4_of_hearts.png");
+		cardArray[11] = new cardClass(4, "4_of_spades.png");
+		
+		cardArray[12] = new cardClass(5, "5_of_clubs.png");
+		cardArray[13] = new cardClass(5, "5_of_diamonds.png");
+		cardArray[14] = new cardClass(5, "5_of_hearts.png");
+		cardArray[15] = new cardClass(5, "5_of_spades.png");
+		
+		cardArray[16] = new cardClass(6, "6_of_clubs.png");
+		cardArray[17] = new cardClass(6, "6_of_diamonds.png");
+		cardArray[18] = new cardClass(6, "6_of_hearts.png");
+		cardArray[19] = new cardClass(6, "6_of_spades.png");
+		
+		cardArray[20] = new cardClass(7, "7_of_clubs.png");
+		cardArray[21] = new cardClass(7, "7_of_diamonds.png");
+		cardArray[22] = new cardClass(7, "7_of_hearts.png");
+		cardArray[23] = new cardClass(7, "7_of_spades.png");
+		
+		cardArray[24] = new cardClass(8, "8_of_clubs.png");
+		cardArray[25] = new cardClass(8, "8_of_diamonds.png");
+		cardArray[26] = new cardClass(8, "8_of_hearts.png");
+		cardArray[27] = new cardClass(8, "8_of_spades.png");
+		
+		cardArray[28] = new cardClass(9, "9_of_clubs.png");
+		cardArray[29] = new cardClass(9, "9_of_diamonds.png");
+		cardArray[30] = new cardClass(9, "9_of_hearts.png");
+		cardArray[31] = new cardClass(9, "9_of_spades.png");
+		
+		cardArray[32] = new cardClass(10, "10_of_clubs.png");
+		cardArray[33] = new cardClass(10, "10_of_diamonds.png");
+		cardArray[34] = new cardClass(10, "10_of_hearts.png");
+		cardArray[35] = new cardClass(10, "10_of_spades.png");
+		
+		cardArray[36] = new cardClass(11, "jack_of_clubs.png");
+		cardArray[37] = new cardClass(11, "jack_of_diamonds.png");
+		cardArray[38] = new cardClass(11, "jack_of_hearts.png");
+		cardArray[39] = new cardClass(11, "jack_of_spades.png");
+		
+		cardArray[40] = new cardClass(12, "queen_of_clubs.png");
+		cardArray[41] = new cardClass(12, "queen_of_diamonds.png");
+		cardArray[42] = new cardClass(12, "queen_of_hearts.png");
+		cardArray[43] = new cardClass(12, "queen_of_spades.png");
+		
+		cardArray[44] = new cardClass(13, "king_of_clubs.png");
+		cardArray[45] = new cardClass(13, "king_of_diamonds.png");
+		cardArray[46] = new cardClass(13, "king_of_hearts.png");
+		cardArray[47] = new cardClass(13, "king_of_spades.png");
+		
+		cardArray[48] = new cardClass(1, "ace_of_clubs.png");
+		cardArray[49] = new cardClass(1, "ace_of_diamonds.png");
+		cardArray[50] = new cardClass(1, "ace_of_hearts.png");
+		cardArray[51] = new cardClass(1, "ace_of_spades.png");
+		}catch(ArrayIndexOutOfBoundsException ae) {
+			
+			txtEx = new Text("Array out of bounds");
+			
+		}
+//----------------------making 4 random numbers--------------------//
+		Random rand = new Random();
+
+		card1 = rand.nextInt(51);
+		card2 = rand.nextInt(51);
+		while(card2 == card1) {		//exclude repeat cards
+			card2 = rand.nextInt(51);
+		}
+		card3 = rand.nextInt(51);
+		while(card3 == card1 || card3 == card2) {	//exclude repeat cards
+			card3 = rand.nextInt(51);
+		}
+		card4 = rand.nextInt(51);
+		while(card4 == card1 || card4 == card2 || card4 == card3) {		//exclude repeat cards
+			card4 = rand.nextInt(51);
+		}
+		
+//----------------making the picture based on random number---------------//
+		pic1 = new ImageView(cardArray[card1].getPic());
+		pic2 = new ImageView(cardArray[card2].getPic());
+		pic3 = new ImageView(cardArray[card3].getPic());
+		pic4 = new ImageView(cardArray[card4].getPic());     
+		
+		go = new Button("GO!");				//making button
+		go.setOnAction(goEventListener);	//making button do stuff
+		 
+//-----------------------fill hbox-------------------------//
+        hb.getChildren().add(go);	
+        hb.getChildren().add(pic1);
+        hb.getChildren().add(pic2);
+        hb.getChildren().add(pic3);
+        hb.getChildren().add(pic4);
+        
+//-----------------------------------------------------------
+        
+        calc = new Button("Calc");
+        calc.setOnAction(calculate);
+        
+      //  solutionbtn = new Button("Solution");
+      //  solutionbtn.setOnAction(solve);
+        
+        hb2.getChildren().add(lbl);
+        hb2.getChildren().add(txt1);
+        hb2.getChildren().add(calc);
+        hb2.getChildren().add(txt2);
+        
+       // hb3.getChildren().add(solutionbtn);
+        hb3.getChildren().add(txt3);
+        hb3.getChildren().add(txt4);  
+        
+       //Exception Printout
+       hb4.getChildren().add(txtEx);
+        
+        
+        vb.getChildren().add(hb);
+        vb.getChildren().add(hb2);
+        vb.getChildren().add(hb3);
+        vb.getChildren().add(hb4);
+        
+        sn = new Scene(vb, 1100, 500, Color.RED);		//**** for some reason i cant change the color idk
+        arg0.setTitle("Card Game!");
+        arg0.setScene(sn);
+        arg0.show();
+	}
+
+//---------------------------calc button doing stuff--------------------------//
+	EventHandler<ActionEvent> calculate
+    = (ActionEvent event) -> {
+    	
+    	String op1 = null;  	
+    	
+    	Scanner scan = new Scanner(txt1.getText());	//reads the textfield
+    	scan.useDelimiter("[-+*/]+");		//splits up the string when it reads any non-num
+    	Scanner scan2 = new Scanner(txt1.getText());	//reads the textfield
+    	scan2.useDelimiter("[0-9]+");		//splits up the string when it reads any num
+    
+    	String[] list = new String[20];
+    	int count=0;
+    	int count2=0;
+    	
+//---------------while loops that fill the array------------//
+    	//this loop only reads numbers, and fills even index's
+    	//ex: 0,2,4,6...
+    	while(scan.hasNext()) {
+    	op1 = scan.next();
+    	list[count]=op1;
+    	count++;
+    	count++;
+    	}
+    	scan.close();
+    	
+    	//this loop only reads symbols, and fills odd index's (no '()' yet)
+    	//ex: 1,3,5,7...
+    	while(scan2.hasNext()) {
+    		count2++;
+    		op1 = scan2.next();
+        	list[count2]=op1;
+        	count2++;
+        	}
+    	scan2.close();
+    	
+//------------------------goes through the array and tries to find math symbols---------------------//
+        int finalsize = count;
+    	int total = 0;
+    	int sum = 0;
+    	
+    	int math1 = -1, math2 = -1, math3 = -1;
+//----order or operations...find positions of * or / first------//
+    	try {
+    	for(int i = 0; i < finalsize-1; i++) {
+    		char comp = list[i].charAt(0);
+    		if(comp == '*' || comp == '/') {
+    			if(math1 == -1)		//if there is at least 1 * or /, math1 will be filled with its index
+    			math1 = i;
+    			else if(math2 == -1)//if there are at least 2, math2 will be filled	
+    			math2 = i;
+    			else
+    				math3 = i;		//if all 3 operations are * or /, then math3 will fill
+    		}
+    	}
+    	
+    	}catch(ArithmeticException me) {
+    		txtEx = new Text("Divide By Zero");
+    	}
+    	
+    	for(int i = 0; i < finalsize-1; i++) {
+    		char comp = list[i].charAt(0);
+    		if(comp == '+' || comp == '-') {
+    			if(math1 == -1)		//if there are no * or /, math1 will be filled with the index of a + or -
+    			math1 = i;
+    			else if(math2 == -1)//if there are at least 2, math2 will be filled	
+    			math2 = i;
+    			else
+    				math3 = i;		//if all 3 operations are full, then math3 will fill
+    		}
+    	}
+    	
+//-----------------------handles the first equation to be solved-----------
+    	if(math1>math2) {		//ex: 1+2*3+4 == 1(m2)2(m1)3(m3)4 or 1+2+3*4 == 1(m2)2(m3)3(m1)4
+    		if(math1>math3) {		//ex: 1+2+3*4 == 1(m2)2(m3)3(m1)4
+    			if(list[math1].charAt(0) == '*') {
+    				sum = Integer.parseInt(list[math1-1]) * Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    			else if(list[math1].charAt(0) == '/') {
+    				sum = Integer.parseInt(list[math1-1]) / Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    			else if(list[math1].charAt(0) == '+') {
+    				sum = Integer.parseInt(list[math1-1]) + Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    			else if(list[math1].charAt(0) == '-') {
+    				sum = Integer.parseInt(list[math1-1]) - Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    		}else {
+    			if(list[math1].charAt(0) == '*') {
+    				sum = Integer.parseInt(list[math1-1]) * Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    			else if(list[math1].charAt(0) == '/') {
+    				sum = Integer.parseInt(list[math1-1]) / Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}else if(list[math1].charAt(0) == '+') {
+    				sum = Integer.parseInt(list[math1-1]) + Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    			else if(list[math1].charAt(0) == '-') {
+    				sum = Integer.parseInt(list[math1-1]) - Integer.parseInt(list[math1+1]);
+    				list[math1-1] = Integer.toString(sum);
+    			}
+    		}
+    	}else {
+    		if(list[math1].charAt(0) == '*') {
+				sum = Integer.parseInt(list[math1-1]) * Integer.parseInt(list[math1+1]);
+				list[math1+1] = Integer.toString(sum);
+			}
+			else if(list[math1].charAt(0) == '/') {
+				sum = Integer.parseInt(list[math1-1]) / Integer.parseInt(list[math1+1]);
+				list[math1+1] = Integer.toString(sum);
+			}else if(list[math1].charAt(0) == '+') {
+				sum = Integer.parseInt(list[math1-1]) + Integer.parseInt(list[math1+1]);
+				list[math1+1] = Integer.toString(sum);
+			}
+			else if(list[math1].charAt(0) == '-') {
+				sum = Integer.parseInt(list[math1-1]) - Integer.parseInt(list[math1+1]);
+				list[math1+1] = Integer.toString(sum);
+			}
+    	}
+
+    	if(math2>math3) {		//ex: 1+2*3*4 == 1(m3)2(m1)3(m2)4	or	1*2+3*4 == 1(m1)2(m3)3(m2)4
+			if(list[math2].charAt(0) == '*') {
+				sum = Integer.parseInt(list[math2-1]) * Integer.parseInt(list[math2+1]);
+				list[math3+1] = Integer.toString(sum);
+			}
+			else if(list[math2].charAt(0) == '/') {
+				sum = Integer.parseInt(list[math2-1]) / Integer.parseInt(list[math2+1]);
+				list[math3+1] = Integer.toString(sum);
+			}
+			else if(list[math2].charAt(0) == '+') {
+				sum = Integer.parseInt(list[math2-1]) + Integer.parseInt(list[math2+1]);
+				list[math3+1] = Integer.toString(sum);
+			}
+			else if(list[math2].charAt(0) == '-') {
+				sum = Integer.parseInt(list[math2-1]) - Integer.parseInt(list[math2+1]);
+				list[math3+1] = Integer.toString(sum);
+			}
+		}else {			//ex: 1*2*3+4 == 1(m1)2(m2)3(m3)4	or	1+2+3+4
+    		if(list[math2].charAt(0) == '*') {
+				sum = Integer.parseInt(list[math2-1]) * Integer.parseInt(list[math2+1]);
+				list[math3-1] = Integer.toString(sum);
+			}
+			else if(list[math2].charAt(0) == '/') {
+				sum = Integer.parseInt(list[math2-1]) / Integer.parseInt(list[math2+1]);
+				list[math3-1] = Integer.toString(sum);
+			}else if(list[math2].charAt(0) == '+') {
+				sum = Integer.parseInt(list[math2-1]) + Integer.parseInt(list[math2+1]);
+				list[math3-1] = Integer.toString(sum);
+			}
+			else if(list[math2].charAt(0) == '-') {
+				sum = Integer.parseInt(list[math2-1]) - Integer.parseInt(list[math2+1]);
+				list[math3-1] = Integer.toString(sum);
+			}
+    	}
+    	
+    	if(list[math3].charAt(0) == '*') {	//position of m3 doesnt matter, just calc the left and right numbers
+			sum = Integer.parseInt(list[math3-1]) * Integer.parseInt(list[math3+1]);
+		}
+		else if(list[math3].charAt(0) == '/') {
+			sum = Integer.parseInt(list[math3-1]) / Integer.parseInt(list[math3+1]);
+		}else if(list[math3].charAt(0) == '+') {
+			sum = Integer.parseInt(list[math3-1]) + Integer.parseInt(list[math3+1]);
+		}
+		else if(list[math3].charAt(0) == '-') {
+			sum = Integer.parseInt(list[math3-1]) - Integer.parseInt(list[math3+1]);
+		}	
+    	total=sum;
+    	
+    	if(total == 24)
+        txt2.setText(Integer.toString(total) + "! Good Job!");
+    	else
+    		txt2.setText(Integer.toString(total) + ": doesn't equal 24 :( try again");
+    };
+//-------------------------------------------------Go button doing stuff----------------------------//
+	 EventHandler<ActionEvent> goEventListener
+	    = (ActionEvent event) -> {
+//------------------------re-make 4 random nums-------------------------//
+	    	Random rand = new Random();
+			card1 = rand.nextInt(51);
+			card2 = rand.nextInt(51);
+			while(card2 == card1) {		//exclude repeat cards
+				card2 = rand.nextInt(51);
+			}
+			card3 = rand.nextInt(51);
+			while(card3 == card1 || card3 == card2) {	//exclude repeat cards
+				card3 = rand.nextInt(51);
+			}
+			card4 = rand.nextInt(51);
+			while(card4 == card1 || card4 == card2 || card4 == card3) {		//exclude repeat cards
+				card4 = rand.nextInt(51);
+			}
+//----------------re-make 4 images based on new rand nums---------------//
+			pic1 = new ImageView(cardArray[card1].getPic());
+			pic2 = new ImageView(cardArray[card2].getPic());
+			pic3 = new ImageView(cardArray[card3].getPic());
+			pic4 = new ImageView(cardArray[card4].getPic());
+			
+//----------------clear hbox then refill it----------------------------//
+			hb.getChildren().clear();
+	        hb.getChildren().add(go);
+			hb.getChildren().add(pic1);
+	        hb.getChildren().add(pic2);
+	        hb.getChildren().add(pic3);
+	        hb.getChildren().add(pic4);		 
+	        
+	        txt1.clear();
+	        txt2.setText("");
+	    };
+
+	 public static void main(String[] arg0)
+	    {
+	        launch(arg0);
+	    }
+}
